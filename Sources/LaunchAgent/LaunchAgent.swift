@@ -24,6 +24,8 @@ public class LaunchAgent: Codable {
     // Basic Properties
     /// Contains a unique string that identifies your daemon to launchd.
     public var label: String
+  
+    public var associatedBundleIdentifiers: [String]
     
     /// Whether the agent is enabled.
     ///
@@ -340,8 +342,9 @@ public class LaunchAgent: Codable {
     /// - Parameters:
     ///   - label: the job's label
     ///   - program: the job's program arguments
-    public init(label: String, program: [String]) {
+    public init(label: String, associatedBundleIdentifiers: [String], program: [String]) {
         self.label = label
+        self.associatedBundleIdentifiers = associatedBundleIdentifiers
         if program.count == 1 {
             self.program = program.first
         } else {
@@ -357,8 +360,8 @@ public class LaunchAgent: Codable {
     /// - Parameters:
     ///   - label: the job's label
     ///   - program: the job's program arguments
-    public convenience init(label: String, program: String...) {
-        self.init(label: label, program: program)
+    public convenience init(label: String, associatedBundleIdentifiers: [String], program: String...) {
+      self.init(label: label, associatedBundleIdentifiers: associatedBundleIdentifiers, program: program)
     }
     
     // MARK: - Codable
@@ -374,6 +377,8 @@ public class LaunchAgent: Codable {
         case program = "Program"
         /// ProgramArguments
         case programArguments = "ProgramArguments"
+        /// AssociatedBundleIdentifiers
+        case associatedBundleIdentifiers = "AssociatedBundleIdentifiers"
         
         // Program
         /// WorkingDirectory
